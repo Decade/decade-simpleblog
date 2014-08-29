@@ -9,7 +9,10 @@
                  [compojure "1.1.8"]
                  [ring/ring-core "1.3.1"]
                  [ring/ring-devel "1.3.1"]
-                 [http-kit "2.1.11"]]
+                 [http-kit "2.1.11"]
+                 [com.mchange/c3p0 "0.9.2.1"]
+                 [environ "1.0.0"]]
+  :plugins [[lein-environ "1.0.0"]]
   :main ^:skip-aot site.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all} :dev {:plugins [[cider/cider-nrepl "0.8.0-SNAPSHOT"]]}})
