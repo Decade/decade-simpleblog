@@ -15,4 +15,4 @@
   :plugins [[lein-environ "1.0.0"]]
   :main ^:skip-aot site.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all} :dev {:plugins [[cider/cider-nrepl "0.8.0-SNAPSHOT"]]}})
+  :profiles {:uberjar {:aot :all}})
