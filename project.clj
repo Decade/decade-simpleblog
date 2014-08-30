@@ -11,7 +11,8 @@
                  [ring/ring-devel "1.3.1"]
                  [http-kit "2.1.11"]
                  [com.mchange/c3p0 "0.9.2.1"]
-                 [environ "1.0.0"]]
+                 [environ "1.0.0"]
+                 [hiccup "1.0.5"]]
   :plugins [[lein-environ "1.0.0"]]
   :main ^:skip-aot site.core
   :target-path "target/%s"
