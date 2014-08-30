@@ -29,7 +29,9 @@
                                               [:created_at :timestamp 
                                                "NOT NULL" "DEFAULT CURRENT_TIMESTAMP"]
                                               [:published_at :timestamp
-                                               "NOT NULL" "DEFAULT CURRENT_TIMESTAMP"]
+                                               "NOT NULL" "DEFAULT CURRENT_TIMESTAMP"
+                                               "CHECK(published_at >= created_at)"
+                                               "UNIQUE"]
                                               [:title :varchar "NOT NULL"]
                                               [:body :varchar "NOT NULL"])
                         (sql/create-table-ddl :version
