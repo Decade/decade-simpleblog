@@ -13,7 +13,8 @@
                  [com.mchange/c3p0 "0.9.2.1"]
                  [environ "1.0.0"]
                  [hiccup "1.0.5"]]
-  :plugins [[lein-environ "1.0.0"]]
+  :plugins [[lein-environ "1.0.0"]
+            [lein-ring "0.8.11"]]
   :main ^:skip-aot site.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all} :dev {:dependencies [[javax.servlet/servlet-api "2.5"]]}})

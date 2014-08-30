@@ -12,7 +12,7 @@
        [:h1 "Simple blog thing."]
        (for [article page]
          [:article
-          [:h3 [:a {:href (str "article?id=" (:id article))} (:title article)]]
+          [:h3 [:a {:href (str "article/" (:id article))} (:title article)]]
           [:p (str "Created at " (->> article
                                       :created_at
                                       (.format (DateFormat/getDateTimeInstance 
@@ -40,6 +40,25 @@
              [:div (:body item)])
        [:h2 "Content not found."])
      (when (:prev item)
-       [:div "Previous page: " [:a {:href (str "article?id=" (:prev item))} (:prev_title item)]])
+       [:div "Previous page: " [:a {:href (str (:prev item))} (:prev_title item)]])
      (when (:next item)
-       [:div "Next page: " [:a {:href (str "article?id=" (:next item))} (:next_title item)]])]]))
+       [:div "Next page: " [:a {:href (str (:next item))} (:next_title item)]])]]))
+
+(defn fnf []
+  (html
+   [:html
+    [:head
+     [:title "404 - Simple blog thing."]]
+    [:body
+     [:h1 [:a {:href "/"} "Simple blog thing."]]
+     [:h2 "404 Error: File not found."]]]))
+
+(defn articlefnf [item]
+  (html
+   [:html
+    [:head
+     [:title "404 Article not found - Simple blog thing."]]
+    [:body
+     [:h1 [:a {:href "/"} "Simple blog thing."]]
+     [:h2 "404 Error: Article not found."]
+     [:div "Next page: " [:a {:href (str "article/" (:next item))} (:next_title item)]]]]))
