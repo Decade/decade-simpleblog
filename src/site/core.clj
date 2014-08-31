@@ -5,7 +5,8 @@
             [site.db.articles :as art]
             [site.page.index :as page]
             [org.httpkit.server :refer :all]
-            [environ.core :refer [env]]))
+            [environ.core :refer [env]])
+  (:gen-class))
 
 (defn get-index [page-num]
   (let [articles (art/articles page-num)]
@@ -23,11 +24,10 @@
 
 (defn get-first []
   (let [art (art/first-article)]
-    (page/article art)))
-;    (if (:title art)
-;      (page/article art)
-;      {:status 404
-;       :body (page/articlefnf art)})))
+    (if (:title art)
+      (page/article art)
+      {:status 404
+       :body (page/articlefnf art)})))
 
 (defn index-redirect []
   {:status 301
