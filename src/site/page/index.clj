@@ -12,18 +12,18 @@
        [:h1 "Simple blog thing."]
        (for [article page]
          [:article
-          [:h3 [:a {:href (str "article/" (:id article))} (:title article)]]
+          [:h3 [:a {:href (str "/article/" (:id article))} (:title article)]]
           [:p (str "Created at " (->> article
                                       :created_at
                                       (.format (DateFormat/getDateTimeInstance 
                                                 DateFormat/LONG DateFormat/LONG))))]])
        [:div (str "Page " (inc (:page-number metadata)) " out of " (:total-pages metadata))]
        (when (:prev-page metadata)
-         [:div [:a {:href (str "index?p=" (if (> (:page-number metadata) (:total-pages metadata))
+         [:div [:a {:href (str "/index/" (if (> (:page-number metadata) (:total-pages metadata))
                                             (:total-pages metadata)
                                             (dec (:page-number metadata))))} "Previous page"]])
        (when (:next-page metadata)
-         [:div [:a {:href (str "index?p=" (inc (:page-number metadata)))} "Next page"]])]])))
+         [:div [:a {:href (str "/index/" (inc (:page-number metadata)))} "Next page"]])]])))
 
 (defn article [item]
   (html
@@ -31,7 +31,7 @@
     [:head
      [:title (str (:title item) " - Simple blog thing.")]]
     [:body
-     [:h1 [:a {:href (str "index?p=" (:page_number item))} "Simple blog thing."]]
+     [:h1 [:a {:href (str "/index/" (:page_number item))} "Simple blog thing."]]
      (if (:title item)
        (list [:h2 (:title item)]
              [:h3 (str "Created at " (->> item :created_at
@@ -61,4 +61,4 @@
     [:body
      [:h1 [:a {:href "/"} "Simple blog thing."]]
      [:h2 "404 Error: Article not found."]
-     [:div "Next page: " [:a {:href (str "article/" (:next item))} (:next_title item)]]]]))
+     [:div "Next page: " [:a {:href (str (:next item))} (:next_title item)]]]]))
