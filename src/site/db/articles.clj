@@ -23,8 +23,8 @@
   (sql/with-db-transaction [db pool :isolation :serializable]
     (let [article
           (first (sql/query db [(str "SELECT c.created_at, c.published_at, c.title, c.body, "
-                                     "prev.id as prev, prev.title as prev_title, "
-                                     "next.id as next, next.title as next_title "
+                                     "prev.id AS prev, prev.title AS prev_title, "
+                                     "next.id AS next, next.title AS next_title "
                                      "FROM articles c LEFT JOIN "
                                      "(SELECT l.id, l.title FROM articles l CROSS JOIN articles r "
                                      "WHERE r.id = ? AND l.published_at > r.published_at "
@@ -44,7 +44,18 @@
                           (#(quot % articles-per-page)))
           next-article (if (:created_at article)
                          {:id (:next article) :title (:next_title article)}
-                         (first (sql/query db [(str "SELECT id as next, title as next_title FROM articles "
+                         (first (sql/query db [(str "SELECT id AS next, title AS next_title FROM articles "
                                                     "WHERE published_at < CURRENT_TIMESTAMP "
                                                     "ORDER BY published_at DESC LIMIT 1")])))] 
       (or (and article (assoc article :page_number page-number)) next-article))))
+
+(defn first-article []
+  (let [articles (sql/query pool [(str "SELECT id, title, created_at, published_at, title, body "
+                                       "FROM articles WHERE published_at < CURRENT_TIMESTAMP "
+                                       "ORDER BY published_at DESC LIMIT 2")])
+        first-article (first articles)
+        second-article (-> articles rest first)
+        {:keys [created_at published_at title body]} first-article
+        {next :id next_title :title} second-article]
+    {:created_at created_at :published_at published_at :title title :body body 
+     :next next :next_title next_title}))
