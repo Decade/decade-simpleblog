@@ -48,4 +48,4 @@
   (route/not-found (page/fnf)))
 
 (defn -main [& args]
-  (run-server (handler/site all-routes) {:port (env :port)}))
+  (run-server (handler/site all-routes) {:port (read-string (env :port))}))
