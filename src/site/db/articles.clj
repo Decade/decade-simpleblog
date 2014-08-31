@@ -15,9 +15,8 @@
       (with-meta articles {:page-number page-number
                            :prev-page (> page-number 0) 
                            :next-page (> number-of-articles (+ first-article-number articles-per-page))
-                           :total-pages
-                           (+ (quot number-of-articles articles-per-page)
-                              (if (pos? (rem number-of-articles articles-per-page)) 1 0))}))))
+                           :total-pages (quot (+ number-of-articles (dec articles-per-page))
+                                              articles-per-page)}))))
 
 (defn article [article-number]
   (sql/with-db-transaction [db (connect) :isolation :serializable]
