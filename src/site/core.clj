@@ -47,5 +47,5 @@
   (GET "/index/" [] (get-index 0))
   (route/not-found (page/fnf)))
 
-(defn -main []
+(defn -main [& args]
   (run-server (handler/site all-routes) {:port (env :port)}))
