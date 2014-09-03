@@ -1,11 +1,11 @@
 (ns site.db.articles
-  (:require [site.db.connect :refer [connect]]
+  (:require [site.db.connect :refer [pool]]
             [clojure.java.jdbc :as sql]))
 
 (def articles-per-page 10)
 
 (defn articles [page-number]
-  (sql/with-db-transaction [db (connect) :isolation :serializable]
+  (sql/with-db-transaction [db @pool :isolation :serializable]
     (let [first-article-number (* page-number articles-per-page)
           number-of-articles (-> (sql/query db ["SELECT count(id) FROM articles"]) first :count)
           articles (sql/query db [(str "SELECT id, created_at, published_at, title FROM articles "
@@ -19,7 +19,7 @@
                                               articles-per-page)}))))
 
 (defn article [article-number]
-  (sql/with-db-transaction [db (connect) :isolation :serializable]
+  (sql/with-db-transaction [db @pool :isolation :serializable]
     (let [article
           (first (sql/query db [(str "SELECT c.created_at, c.published_at, c.title, c.body, "
                                      "prev.id AS prev, prev.title AS prev_title, "
@@ -49,7 +49,7 @@
       (or (and article (assoc article :page_number page-number)) next-article))))
 
 (defn first-article []
-  (let [articles (sql/query (connect) [(str "SELECT id, title, created_at, published_at, title, body "
+  (let [articles (sql/query @pool [(str "SELECT id, title, created_at, published_at, title, body "
                                        "FROM articles WHERE published_at < CURRENT_TIMESTAMP "
                                        "ORDER BY published_at DESC LIMIT 2")])
         first-article (first articles)
