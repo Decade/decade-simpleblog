@@ -14,13 +14,19 @@ FIXME: explanation
 
 ## Options
 
-FIXME: listing of options this app accepts.
+Takes environment variables PORT and DATABASE_URL.
+
+Port for listening and PostgreSQL database for storing data.
 
 ## Examples
 
 ...
 
 ### Bugs
+
+Very, very limited. Put online just so my portfolio wouldn't be entirely empty.
+
+Currently, need to enter articles in HTML into the database with `psql` directly.
 
 ...
 
